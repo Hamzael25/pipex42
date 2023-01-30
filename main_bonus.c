@@ -6,7 +6,7 @@
 /*   By: hel-ouar <hel-ouar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 12:46:22 by hel-ouar          #+#    #+#             */
-/*   Updated: 2023/01/30 19:59:21 by hel-ouar         ###   ########.fr       */
+/*   Updated: 2023/01/30 20:14:56 by hel-ouar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,8 @@ int	main(int argc, char **argv, char **envp)
 	while (i < argc - 2)
 	{
 		if (pipe(p.fd) == -1)
-		return (ft_free_tab(p.paths), ft_free_tab(p.first_cmd), \
-			perror("pipe"), exit(0), 0);
+			return (ft_free_tab(p.paths), ft_free_tab(p.first_cmd), \
+				perror("pipe"), exit(0), 0);
 		new_cmd(&p, argv[i++]);
 		pipex_multiple(&p, envp);
 		close(p.fd[0]);
