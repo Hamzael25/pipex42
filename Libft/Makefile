@@ -25,12 +25,12 @@ SRCS = ft_atoi.c ft_bzero.c ft_calloc.c ft_isalnum.c ft_isalpha.c \
 OBJS = $(SRCS:.c=.o)
 NAME = libft.a
 HEAD = libft.h
-CC = gcc -g #-fsanitize=address
+CC = gcc
 FLAGS = -Wall -Wextra -Werror
 RM = rm -f
 
 %.o: %.c Makefile ${HEAD}
-		${CC} ${FLAGS} -I ${HEAD} -c $< -o $@
+		${CC} ${FLAGS} -I./ -c $< -o $@
 
 all: $(NAME)
 

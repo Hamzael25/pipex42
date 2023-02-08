@@ -1,34 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
+/*   utils_pipex.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hel-ouar <hel-ouar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/12 14:39:41 by hel-ouar          #+#    #+#             */
-/*   Updated: 2022/11/18 14:54:06 by hel-ouar         ###   ########.fr       */
+/*   Created: 2023/02/06 16:35:29 by hel-ouar          #+#    #+#             */
+/*   Updated: 2023/02/08 13:00:43 by hel-ouar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "pipex.h"
 
-void	ft_putnbr_fd(int n, int fd)
+void	free_pipex(t_pipe *p)
 {
-	if (n == -2147483648)
-	{
-		ft_putstr_fd("-2147483648", fd);
-	}
-	else if (n < 0)
-	{
-		ft_putchar_fd('-', fd);
-		n = -n;
-		ft_putnbr_fd(n, fd);
-	}
-	else if (n > 9)
-	{
-		ft_putnbr_fd(n / 10, fd);
-		ft_putnbr_fd(n %= 10, fd);
-	}
-	else if (n >= 0 && n <= 9)
-		ft_putchar_fd((n + 48), fd);
+	if (p->first_cmd)
+		ft_free_tab(p->first_cmd);
+	if (p->second_cmd)
+		ft_free_tab(p->second_cmd);
+	if (p->paths)
+		ft_free_tab(p->paths);
+	if (p->cmd)
+		free(p->cmd);
+}
+
+void	error(t_pipe *p, char *str)
+{
+	free_pipex(p);
+	perror(str);
+}
+
+void	init_tab(t_pipe *p)
+{
+	p->paths = NULL;
+	p->first_cmd = NULL;
+	p->second_cmd = NULL;
+	p->cmd = NULL;
 }

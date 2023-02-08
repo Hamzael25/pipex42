@@ -6,15 +6,15 @@
 #    By: hel-ouar <hel-ouar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/15 18:23:28 by hel-ouar          #+#    #+#              #
-#    Updated: 2023/01/30 16:05:00 by hel-ouar         ###   ########.fr        #
+#    Updated: 2023/02/08 13:13:18 by hel-ouar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-CC = gcc -g #-fsanitize=address
+CC = gcc
 
-SRCS = pipex.c branch.c
+SRCS = main_pipex.c process_pipex.c utils_pipex.c
 
-SRCB = main_bonus.c pipex_bonus.c
+SRCB = main_pipex_bonus.c process_pipex_bonus.c utils_pipex_bonus.c
 
 OBJB = $(SRCB:.c=.o)
 

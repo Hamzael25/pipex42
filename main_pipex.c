@@ -6,7 +6,7 @@
 /*   By: hel-ouar <hel-ouar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/22 13:31:25 by hel-ouar          #+#    #+#             */
-/*   Updated: 2023/01/30 18:55:38 by hel-ouar         ###   ########.fr       */
+/*   Updated: 2023/02/06 20:40:51 by hel-ouar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,16 +28,14 @@ void	pipex(t_pipe *p, char **argv, char **envp)
 {
 	p->id_first = fork();
 	if (p->id_first == -1)
-		return (perror("fork"));
+		return (error(p, "fork"));
 	if (p->id_first == 0)
-	{
 		first_child(argv[2], p, envp);
-	}
 	else
 	{
 		p->id_second = fork();
 		if (p->id_second == -1)
-			return (ft_free_tab(p->first_cmd), perror("fork"));
+			return (error(p, "fork"));
 		if (p->id_second == 0)
 		{
 			second_child(argv[3], p, envp);
@@ -53,17 +51,18 @@ int	init_pipex(t_pipe *p, char **argv, char **envp)
 	p->infile = open(argv[1], O_RDONLY);
 	p->outfile = open(argv[4], O_CREAT | O_RDWR | O_TRUNC, 0644);
 	if (p->infile < 0)
-		perror("error infile");
+		error(p, "error infile");
 	if (p->outfile < 0)
-		return (perror("error outfile"), exit(1), 0);
+		return (error(p, "error outfile"), exit(1), 0);//1
 	p->path = ft_find_path(envp);
 	if (!p->path)
-		return (perror("error env"), exit(0), 0);
+		return (error(p, "error env"), exit(0), 0);//0
 	p->paths = ft_split(p->path, ':');
+	if (!p->paths)
+		return (error(p, "error"), exit(0), 0);//0
 	if (pipe(p->fd) == -1)
-		return (ft_free_tab(p->paths), perror("pipe"), exit(0), 0);
+		return (error(p, "pipe"), exit(0), 0);//0
 	pipex(p, argv, envp);
-	ft_free_tab(p->paths);
 	return (1);
 }
 
@@ -71,8 +70,13 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_pipe	p;
 
+	p.paths = NULL;
+	p.first_cmd = NULL;
+	p.second_cmd = NULL;
+	p.cmd = NULL;
 	if (argc != 5 || !*envp)
-		return (perror("error args"), exit(1), 0);
+		return (error(&p, "error args"), exit(1), 0);//1
 	else
 		init_pipex(&p, argv, envp);
+	free_pipex(&p);
 }

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex_bonus.c                                      :+:      :+:    :+:   */
+/*   process_pipex.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hel-ouar <hel-ouar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/29 18:28:20 by hel-ouar          #+#    #+#             */
-/*   Updated: 2023/01/30 19:58:43 by hel-ouar         ###   ########.fr       */
+/*   Created: 2023/01/23 15:15:56 by hel-ouar          #+#    #+#             */
+/*   Updated: 2023/02/08 13:07:19 by hel-ouar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,8 @@ static char	*get_cmd(t_pipe	*p, char *str)
 
 char	*init_cmd(t_pipe *p, char **tab)
 {
-	char		*tmp;
 	char		*cmd;
-	int			i;
 
-	i = 0;
-	tmp = NULL;
 	if (tab[0][0] == '/' ||
 		(tab[0][0] == '.' && tab[0][1] == '/'))
 	{
@@ -51,45 +47,29 @@ char	*init_cmd(t_pipe *p, char **tab)
 	return (cmd);
 }
 
-void	exec(t_pipe *p, char *str, char **envp)
+void	first_child(char *str, t_pipe *p, char **envp)
 {
 	p->first_cmd = ft_split(str, ' ');
 	if (!p->first_cmd)
-		return (ft_free_tab(p->first_cmd), \
-			perror("command not found: "), exit(1));
+		return (error(p, "first command not found: "), exit(128));
 	p->cmd = init_cmd(p, p->first_cmd);
-	if (p->cmd == 0)
-		return (ft_free_tab(p->first_cmd), \
-			perror("command not found: "), exit(1));
-	ft_free_tab(p->paths);
+	if (p->cmd == 0 || dup2(p->infile, 0) == -1 \
+		|| dup2(p->fd[1], 1) == -1)
+		return (error(p, "first command not found : "), exit(128));
+	close(p->fd[0]);
 	if (execve(p->cmd, p->first_cmd, envp) == -1)
-		return (ft_free_tab(p->first_cmd), perror(""), exit(1));
+		return (error(p, ""), exit(128));
 }
 
-void	pipex_multiple(t_pipe *p, char **envp)
+void	second_child(char *str, t_pipe *p, char **envp)
 {
-	if (p->id_first == 0)
-	{
-		close(p->fd[1]);
-		if (dup2(p->fd[0], 0) == -1)
-			return (ft_free_tab(p->first_cmd), ft_free_tab(p->paths), \
-				perror(""), exit(1));
-		waitpid(p->id_first, NULL, 0);
-	}
-	else
-	{
-		p->id_second = fork();
-		if (p->id_second == -1)
-			return (perror("fork"));
-		if (p->id_second == 0)
-		{
-			close(p->fd[0]);
-			if (dup2(p->fd[1], 1) == -1 \
-				|| execve(p->cmd, p->first_cmd, envp) == -1)
-				return (ft_free_tab(p->first_cmd), ft_free_tab(p->paths), \
-					perror(""), exit(1));
-		}
-		ft_free_tab(p->first_cmd);
-		exit(0);
-	}
+	p->second_cmd = ft_split(str, ' ');
+	if (!p->second_cmd)
+		return (error(p, "second command not found: "), exit(128));
+	p->cmd2 = init_cmd(p, p->second_cmd);
+	if (p->cmd2 == 0 || dup2(p->outfile, 1) == -1 || dup2(p->fd[0], 0) == -1)
+		return (error(p, "second command not found"), exit(128));
+	close(p->fd[1]);
+	if (execve(p->cmd2, p->second_cmd, envp) == -1)
+		return (error(p, ""), exit(128));
 }

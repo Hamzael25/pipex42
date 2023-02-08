@@ -6,7 +6,7 @@
 /*   By: hel-ouar <hel-ouar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/22 14:25:09 by hel-ouar          #+#    #+#             */
-/*   Updated: 2023/01/30 19:58:55 by hel-ouar         ###   ########.fr       */
+/*   Updated: 2023/02/06 19:00:16 by hel-ouar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 
 # include "libft.h"
 # include <stdio.h>
+# include <sys/types.h>
+# include <sys/wait.h>
 
 typedef struct s_pipe
 {
@@ -33,9 +35,11 @@ typedef struct s_pipe
 	char	*initcmd;
 }				t_pipe;
 
-int		check_error(t_pipe	*p);
-
 char	*ft_find_path(char **envp);
+
+void	error(t_pipe *p, char *str);
+
+void	free_pipex(t_pipe *p);
 
 void	first_child(char *str, t_pipe *p, char **envp);
 
@@ -50,5 +54,7 @@ void	exec(t_pipe *p, char *str, char **envp);
 void	pipex_multiple(t_pipe *p, char **envp);
 
 char	*init_cmd(t_pipe *p, char **tab);
+
+void	init_tab(t_pipe *p);
 
 #endif
