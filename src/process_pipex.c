@@ -6,11 +6,11 @@
 /*   By: hel-ouar <hel-ouar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 15:15:56 by hel-ouar          #+#    #+#             */
-/*   Updated: 2023/02/08 13:07:19 by hel-ouar         ###   ########.fr       */
+/*   Updated: 2023/02/08 14:48:15 by hel-ouar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "../pipex.h"
 
 static char	*get_cmd(t_pipe	*p, char *str)
 {

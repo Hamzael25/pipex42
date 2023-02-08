@@ -6,7 +6,7 @@
 #    By: hel-ouar <hel-ouar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/13 15:15:32 by hel-ouar          #+#    #+#              #
-#    Updated: 2023/01/30 16:09:28 by hel-ouar         ###   ########.fr        #
+#    Updated: 2023/02/08 19:05:17 by hel-ouar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ SRCS = ft_atoi.c ft_bzero.c ft_calloc.c ft_isalnum.c ft_isalpha.c \
 		ft_printf.c get_next_line_utils.c get_next_line.c ft_free.c\
 		ft_sort_int_tab.c ft_lstnew.c ft_lstadd_front.c ft_lstsize.c\
 		ft_lstlast.c ft_lstadd_back.c ft_lstdelone.c ft_lstclear.c\
-		ft_lstiter.c ft_lstmap.c \
+		ft_lstiter.c ft_lstmap.c ft_split_2char.c ft_split_3char.c\
 		
 OBJS = $(SRCS:.c=.o)
 NAME = libft.a

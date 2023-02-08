@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_split_3char.c                                   :+:      :+:    :+:   */
+/*   ft_split_2char.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hel-ouar <hel-ouar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/25 15:19:38 by hel-ouar          #+#    #+#             */
-/*   Updated: 2023/01/26 14:32:20 by hel-ouar         ###   ########.fr       */
+/*   Created: 2023/01/22 17:38:52 by hel-ouar          #+#    #+#             */
+/*   Updated: 2023/02/08 19:05:49 by hel-ouar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "libft.h"
 
-static int	ft_countword(const char *s, char c, char e, char f)
+static int	ft_countword(const char *s, char c, char e)
 {
 	int	i;
 	int	j;
@@ -21,25 +21,24 @@ static int	ft_countword(const char *s, char c, char e, char f)
 	i = 0;
 	while (s[i])
 	{
-		if ((s[i] == c || s[i] == e || s[i] == f || s[i] == '\0') == 0
-			&& (s[i + 1] == c || s[i + 1] == e || s[i + 1] == f
-				|| s[i + 1] == '\0') == 1)
+		if ((s[i] == c || s[i] == e || s[i] == '\0') == 0
+			&& (s[i + 1] == c || s[i + 1] == e || s[i + 1] == '\0') == 1)
 			j++;
 		i++;
 	}
 	return (j + 1);
 }
 
-static int	ft_sizeword(const char *s, char c, char e, char f)
+static int	ft_sizeword(const char *s, char c, char e, int pos)
 {
 	int	count;
 
 	count = 0;
-	while (s)
+	while (s[pos])
 	{
-		if (*s == c || *s == e || *s == f)
+		if (s[pos] == c || s[pos] == e)
 			return (count + 1);
-		s++;
+		pos++;
 		count++;
 	}
 	return (count + 1);
@@ -56,7 +55,7 @@ static char	**ft_free(char **tab, int j)
 	return (NULL);
 }
 
-char	**ft_split_pipex3(char const *s, char c, char e, char f)
+char	**ft_split2(char const *s, char c, char e)
 {
 	char	**tab;
 	int		i;
@@ -65,18 +64,18 @@ char	**ft_split_pipex3(char const *s, char c, char e, char f)
 
 	i = 0;
 	k = 0;
-	tab = (char **)malloc(sizeof(char *) * ft_countword(s, c, e, f));
+	tab = (char **)malloc(sizeof(char *) * ft_countword(s, c, e));
 	if (!tab)
 		return (NULL);
-	while (s[k] && i < ft_countword(s, c, e, f) - 1)
+	while (s[k] && i < ft_countword(s, c, e) - 1)
 	{
-		while (s[k] == c || s[k] == e || s[k] == f)
+		while (s[k] == c || s[k] == e)
 			k++;
-		tab[i] = (char *)malloc(sizeof (char) * ft_sizeword(s + k, c, e, f));
+		tab[i] = (char *)malloc(sizeof (char) * ft_sizeword(s, c, e, k));
 		if (!tab[i])
 			return (ft_free(tab, i));
 		j = 0;
-		while (s[k] && s[k] != c && s[k] != e && s[k] != f)
+		while ((s[k] && s[k] != c) && (s[k] && s[k] != e))
 			tab[i][j++] = s[k++];
 		tab[i][j] = '\0';
 		i++;

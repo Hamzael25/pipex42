@@ -6,15 +6,16 @@
 #    By: hel-ouar <hel-ouar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/15 18:23:28 by hel-ouar          #+#    #+#              #
-#    Updated: 2023/02/08 13:13:18 by hel-ouar         ###   ########.fr        #
+#    Updated: 2023/02/08 19:13:04 by hel-ouar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = gcc
 
-SRCS = main_pipex.c process_pipex.c utils_pipex.c
+SRCS = src/main_pipex.c src/process_pipex.c src/utils_pipex.c
 
-SRCB = main_pipex_bonus.c process_pipex_bonus.c utils_pipex_bonus.c
+SRCB = bonus/here_doc_bonus.c bonus/main_pipex_bonus.c \
+		bonus/process_pipex_bonus.c bonus/utils_pipex_bonus.c
 
 OBJB = $(SRCB:.c=.o)
 

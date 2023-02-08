@@ -6,7 +6,7 @@
 /*   By: hel-ouar <hel-ouar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/13 12:28:32 by hel-ouar          #+#    #+#             */
-/*   Updated: 2023/01/15 13:39:52 by hel-ouar         ###   ########.fr       */
+/*   Updated: 2023/02/08 19:02:42 by hel-ouar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,5 +145,9 @@ char	*ft_tmp_gnl(int fd, char *tmp);
 void	ft_free_tab(char **tab);
 
 void	ft_sort_int_tab(int *tab, int size);
+
+char	**ft_split2(char const *s, char c, char e);
+
+char	**ft_split3(char const *s, char c, char e, char f);
 
 #endif

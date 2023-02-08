@@ -6,7 +6,7 @@
 /*   By: hel-ouar <hel-ouar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/22 14:25:09 by hel-ouar          #+#    #+#             */
-/*   Updated: 2023/02/06 19:00:16 by hel-ouar         ###   ########.fr       */
+/*   Updated: 2023/02/08 17:52:10 by hel-ouar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@
 
 typedef struct s_pipe
 {
+	int		tmp;
+	int		i;
 	int		infile;
 	int		outfile;
 	int		fd[2];
@@ -56,5 +58,9 @@ void	pipex_multiple(t_pipe *p, char **envp);
 char	*init_cmd(t_pipe *p, char **tab);
 
 void	init_tab(t_pipe *p);
+
+int		here_doc(t_pipe *p, int argc, char **argv, char **envp);
+
+int		pipex_bonus(t_pipe *p, int argc, char **argv, char **envp);
 
 #endif
