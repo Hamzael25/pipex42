@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ikaismou <ikaismou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hel-ouar <hel-ouar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/22 14:25:09 by hel-ouar          #+#    #+#             */
-/*   Updated: 2023/02/09 15:42:08 by ikaismou         ###   ########.fr       */
+/*   Updated: 2023/02/09 19:38:42 by hel-ouar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 typedef struct s_pipe
 {
 	int		tmp;
+	char	*line;
 	int		i;
 	int		infile;
 	int		outfile;

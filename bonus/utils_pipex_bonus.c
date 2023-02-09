@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_pipex_bonus.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ikaismou <ikaismou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hel-ouar <hel-ouar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 19:02:51 by hel-ouar          #+#    #+#             */
-/*   Updated: 2023/02/09 17:42:47 by ikaismou         ###   ########.fr       */
+/*   Updated: 2023/02/09 19:34:37 by hel-ouar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,5 +61,3 @@ char	*ft_find_path(char **envp)
 		return (NULL);
 	return (envp[i] + 5);
 }
-
-
