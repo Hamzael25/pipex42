@@ -20,6 +20,7 @@
 
 typedef struct s_pipe
 {
+	int		x;
 	int		tmp;
 	char	*line;
 	int		i;
@@ -54,7 +55,9 @@ void	pipex(t_pipe *p, char **argv, char **envp);
 
 void	exec(t_pipe *p, char *str, char **envp);
 
-void	pipex_multiple(t_pipe *p, char **envp);
+// void	pipex_multiple(t_pipe *p, char **envp);
+
+void	pipex_multiple(t_pipe *p, char **envp, int *id1);
 
 char	*init_cmd(t_pipe *p, char **tab);
 
@@ -65,5 +68,7 @@ int		here_doc(t_pipe *p, int argc, char **argv, char **envp);
 int		pipex_bonus(t_pipe *p, int argc, char **argv, char **envp);
 
 void	free_pipex2(t_pipe *p);
+
+
 
 #endif

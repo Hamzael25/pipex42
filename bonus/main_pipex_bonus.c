@@ -39,13 +39,13 @@ void	new_cmd(t_pipe *p, char *str)
 	p->cmd = init_cmd(p, p->first_cmd);
 	if (p->cmd == 0)
 		return (error(p, "command not found : "), exit(1));
-	p->id_first = fork();
-	if (p->id_first == -1)
-		return (error(p, "fork"));
 }
 
 int	pipex_bonus(t_pipe *p, int argc, char **argv, char **envp)
 {
+	p->x = 0;
+	int id1[argc - 4];
+	int id2[argc - 4];
 	if (dup2(p->infile, 0) == -1 || dup2(p->outfile, 1) == -1)
 		return (error(p, ""), exit(0), 0);
 	while (p->i < argc - 2)
@@ -53,15 +53,24 @@ int	pipex_bonus(t_pipe *p, int argc, char **argv, char **envp)
 		if (pipe(p->fd) == -1)
 			return (error(p, "pipe"), exit(0), 0);
 		new_cmd(p, argv[p->i]);
-		pipex_multiple(p, envp);
+		pipex_multiple(p, envp, id1);
 		close(p->fd[0]);
 		close(p->fd[1]);
 		ft_free_tab(p->first_cmd);
 		p->i += 1;
+		p->x++;
 	}
-	exec(p, argv[p->i], envp);
+	id1[p->x] = fork();
+	if (id1[p->x] == 0)
+		exec(p, argv[p->i], envp);
 	p->first_cmd = NULL;
 	free_pipex(p);
+	p->x = 0;
+	while (p->x <= argc - 4)
+	{
+		waitpid(id1[p->x], NULL, 0);
+		p->x++;
+	}
 	return (1);
 }
 
@@ -74,13 +83,14 @@ int	main(int argc, char **argv, char **envp)
 	{
 		p.i = 3;
 		here_doc(&p, argc, argv, envp);
+		pipex_bonus(&p, argc, argv, envp);
 	}
 	else
 	{
 		p.i = 2;
 		if (!init_bonus(argc, argv, envp, &p))
 			return (0);
+		pipex_bonus(&p, argc, argv, envp);
 	}
-	pipex_bonus(&p, argc, argv, envp);
 	exit(0);
 }

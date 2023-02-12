@@ -59,28 +59,18 @@ void	exec(t_pipe *p, char *str, char **envp)
 		return (error(p, ""), exit(1));
 }
 
-void	pipex_multiple(t_pipe *p, char **envp)
+void	pipex_multiple(t_pipe *p, char **envp, int *id1)
 {
-	if (p->id_first == 0)
-	{
-		close(p->fd[1]);
-		if (dup2(p->fd[0], 0) == -1)
-			return (error(p, ""), exit(1));
-		waitpid(p->id_first, NULL, 0);
-	}
-	else
-	{
-		p->id_second = fork();
-		if (p->id_second == -1)
+		id1[p->x] = fork();
+		if (id1[p->x] == -1)
 			return (error(p, "fork"));
-		if (p->id_second == 0)
+		if (id1[p->x] == 0)
 		{
 			close(p->fd[0]);
 			if (dup2(p->fd[1], 1) == -1 \
 				|| execve(p->cmd, p->first_cmd, envp) == -1)
 				return (error(p, ""), exit(1));
+			free_pipex(p);
+			exit(0);
 		}
-		free_pipex(p);
-		exit(0);
-	}
 }

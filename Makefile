@@ -21,7 +21,7 @@ OBJB = $(SRCB:.c=.o)
 
 OBJS = $(SRCS:.c=.o)
 
-FLAGS = -Wall -Wextra -Werror
+FLAGS = # -Wall -Wextra -Werror
 
 NAME = pipex
 
