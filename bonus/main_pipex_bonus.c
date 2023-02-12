@@ -44,8 +44,7 @@ void	new_cmd(t_pipe *p, char *str)
 int	pipex_bonus(t_pipe *p, int argc, char **argv, char **envp)
 {
 	p->x = 0;
-	int id1[argc - 4];
-	int id2[argc - 4];
+	int id1[p->nb_process];
 	if (dup2(p->infile, 0) == -1 || dup2(p->outfile, 1) == -1)
 		return (error(p, ""), exit(0), 0);
 	while (p->i < argc - 2)
@@ -66,7 +65,7 @@ int	pipex_bonus(t_pipe *p, int argc, char **argv, char **envp)
 	p->first_cmd = NULL;
 	free_pipex(p);
 	p->x = 0;
-	while (p->x <= argc - 4)
+	while (p->x <= p->nb_process)
 	{
 		waitpid(id1[p->x], NULL, 0);
 		p->x++;
@@ -84,13 +83,15 @@ int	main(int argc, char **argv, char **envp)
 		p.i = 3;
 		here_doc(&p, argc, argv, envp);
 		pipex_bonus(&p, argc, argv, envp);
+		p.nb_process = argc - 5;
 	}
 	else
 	{
 		p.i = 2;
 		if (!init_bonus(argc, argv, envp, &p))
 			return (0);
-		pipex_bonus(&p, argc, argv, envp);
+		p.nb_process = argc - 4;
 	}
+	pipex_bonus(&p, argc, argv, envp);
 	exit(0);
 }
