@@ -31,19 +31,18 @@ void	pipex(t_pipe *p, char **argv, char **envp)
 		return (error(p, "fork"));
 	if (p->id_first == 0)
 		first_child(argv[2], p, envp);
-	else
+	p->id_second = fork();
+	if (p->id_second == -1)
+		return (error(p, "fork"));
+	if (p->id_second == 0)
 	{
-		p->id_second = fork();
-		if (p->id_second == -1)
-			return (error(p, "fork"));
-		if (p->id_second == 0)
-		{
-			second_child(argv[3], p, envp);
-		}
-		waitpid(p->id_first, NULL, 1);
+		second_child(argv[3], p, envp);
 	}
+	else
+		waitpid(0, NULL, 0);
 	close(p->fd[0]);
 	close(p->fd[1]);
+	waitpid(-1, NULL, 0);
 }
 
 int	init_pipex(t_pipe *p, char **argv, char **envp)
