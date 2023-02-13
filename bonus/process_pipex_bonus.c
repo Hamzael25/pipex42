@@ -57,14 +57,16 @@ void	exec(t_pipe *p, char *str, char **envp)
 		return (error(p, "command not found: "), exit(1));
 	if (execve(p->cmd, p->first_cmd, envp) == -1)
 		return (error(p, ""), exit(1));
+	exit(0);
 }
 
-void	pipex_multiple(t_pipe *p, char **envp, int *id1)
+void	pipex_multiple(t_pipe *p, char **envp, int id1, char **argv)
 {
-		id1[p->x] = fork();
-		if (id1[p->x] == -1)
+		p->nb_process++;
+		id1 = fork();
+		if (id1 == -1)
 			return (error(p, "fork"));
-		if (id1[p->x] == 0)
+		if (id1 == 0)
 		{
 			close(p->fd[0]);
 			if (dup2(p->fd[1], 1) == -1 \

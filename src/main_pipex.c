@@ -38,11 +38,10 @@ void	pipex(t_pipe *p, char **argv, char **envp)
 	{
 		second_child(argv[3], p, envp);
 	}
-	else
-		waitpid(0, NULL, 0);
 	close(p->fd[0]);
 	close(p->fd[1]);
-	waitpid(-1, NULL, 0);
+	waitpid(p->id_first, NULL, 0);
+	waitpid(p->id_second, NULL, 0);
 }
 
 int	init_pipex(t_pipe *p, char **argv, char **envp)

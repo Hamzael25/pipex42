@@ -16,8 +16,6 @@ static int	init_here_doc(int argc, char **argv, char **envp, t_pipe *p)
 {
 	if (!*envp)
 		return (0);
-	if (argc != 6)
-		return (error(p, "here_doc : error args"), exit(1), 0);
 	p->infile = open("infile", O_CREAT | O_RDWR | O_TRUNC, 0644);
 	p->outfile = open(argv[argc - 1], O_CREAT | O_RDWR | O_TRUNC, 0644);
 	if (p->infile < 0)
