@@ -42,9 +42,11 @@ void	new_cmd(t_pipe *p, char *str)
 
 int	pipex_bonus(t_pipe *p, int argc, char **argv, char **envp)
 {
+	int id1;
+
+	id1 = 0;
 	p->x = 0;
 	p->nb_process = 0;
-	int id1;
 	if (dup2(p->infile, 0) == -1 || dup2(p->outfile, 1) == -1)
 		return (error(p, ""), exit(0), 0);
 	while (p->i < argc - 2)
@@ -52,7 +54,7 @@ int	pipex_bonus(t_pipe *p, int argc, char **argv, char **envp)
 		if (pipe(p->fd) == -1)
 			return (error(p, "pipe"), exit(0), 0);
 		new_cmd(p, argv[p->i]);
-		pipex_multiple(p, envp, id1, argv);
+		pipex_multiple(p, envp, id1);
 		close(p->fd[0]);
 		close(p->fd[1]);
 		ft_free_tab(p->first_cmd);

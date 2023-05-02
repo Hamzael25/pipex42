@@ -60,7 +60,7 @@ void	exec(t_pipe *p, char *str, char **envp)
 	exit(0);
 }
 
-void	pipex_multiple(t_pipe *p, char **envp, int id1, char **argv)
+void	pipex_multiple(t_pipe *p, char **envp, int id1)
 {
 		p->nb_process++;
 		id1 = fork();

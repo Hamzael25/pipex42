@@ -56,7 +56,7 @@ void	pipex(t_pipe *p, char **argv, char **envp);
 
 void	exec(t_pipe *p, char *str, char **envp);
 
-void	pipex_multiple(t_pipe *p, char **envp, int id1, char **argv);
+void	pipex_multiple(t_pipe *p, char **envp, int id1);
 
 char	*init_cmd(t_pipe *p, char **tab);
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc_bonus.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hel-ouar <hel-ouar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hamzaelouardi <hamzaelouardi@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 13:33:09 by hel-ouar          #+#    #+#             */
-/*   Updated: 2023/02/09 19:40:24 by hel-ouar         ###   ########.fr       */
+/*   Updated: 2023/05/02 11:20:16 by hamzaelouar      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static int	init_here_doc(int argc, char **argv, char **envp, t_pipe *p)
 	if (!*envp)
 		return (0);
 	p->infile = open("infile", O_CREAT | O_RDWR | O_TRUNC, 0644);
-	p->outfile = open(argv[argc - 1], O_CREAT | O_RDWR | O_TRUNC, 0644);
+	p->outfile = open(argv[argc - 1], O_CREAT | O_RDWR | O_APPEND, 0644);
 	if (p->infile < 0)
 		error(p, "error infile");
 	if (p->outfile < 0)
