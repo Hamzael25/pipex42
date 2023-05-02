@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_pipex.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ikaismou <ikaismou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hel-ouar <hel-ouar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/22 13:31:25 by hel-ouar          #+#    #+#             */
-/*   Updated: 2023/02/09 13:33:37 by ikaismou         ###   ########.fr       */
+/*   Updated: 2023/05/02 14:24:34 by hel-ouar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,4 +77,6 @@ int	main(int argc, char **argv, char **envp)
 	else
 		init_pipex(&p, argv, envp);
 	free_pipex(&p);
+	close(p.infile);
+	close(p.outfile);
 }

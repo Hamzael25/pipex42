@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process_pipex_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ikaismou <ikaismou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hel-ouar <hel-ouar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 18:28:20 by hel-ouar          #+#    #+#             */
-/*   Updated: 2023/02/09 15:06:49 by ikaismou         ###   ########.fr       */
+/*   Updated: 2023/05/02 14:04:49 by hel-ouar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ void	exec(t_pipe *p, char *str, char **envp)
 	p->cmd = init_cmd(p, p->first_cmd);
 	if (p->cmd == 0)
 		return (error(p, "command not found: "), exit(1));
+	close(p->fd[0]);
 	if (execve(p->cmd, p->first_cmd, envp) == -1)
 		return (error(p, ""), exit(1));
 	exit(0);
@@ -62,17 +63,17 @@ void	exec(t_pipe *p, char *str, char **envp)
 
 void	pipex_multiple(t_pipe *p, char **envp, int id1)
 {
-		p->nb_process++;
-		id1 = fork();
-		if (id1 == -1)
-			return (error(p, "fork"));
-		if (id1 == 0)
-		{
-			close(p->fd[0]);
-			if (dup2(p->fd[1], 1) == -1 \
-				|| execve(p->cmd, p->first_cmd, envp) == -1)
-				return (error(p, ""), exit(1));
-			free_pipex(p);
-			exit(0);
-		}
+	p->nb_process++;
+	id1 = fork();
+	if (id1 == -1)
+		return (error(p, "fork"));
+	if (id1 == 0)
+	{
+		close(p->fd[0]);
+		if (dup2(p->fd[1], 1) == -1 \
+			|| execve(p->cmd, p->first_cmd, envp) == -1)
+			return (error(p, ""), exit(1));
+		free_pipex(p);
+		exit(0);
+	}
 }

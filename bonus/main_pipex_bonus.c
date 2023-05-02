@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_pipex_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ikaismou <ikaismou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hel-ouar <hel-ouar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 12:46:22 by hel-ouar          #+#    #+#             */
-/*   Updated: 2023/02/09 18:08:59 by ikaismou         ###   ########.fr       */
+/*   Updated: 2023/05/02 14:21:28 by hel-ouar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,29 @@ void	new_cmd(t_pipe *p, char *str)
 	p->cmd = init_cmd(p, p->first_cmd);
 	if (p->cmd == 0)
 		return (error(p, "command not found : "), exit(1));
-	
+}
+
+void	pipex_bonus2(t_pipe *p, char **argv, char **envp)
+{
+	int	id1;
+
+	id1 = fork();
+	if (id1 == 0)
+		exec(p, argv[p->i], envp);
+	close(p->fd[0]);
+	close(p->fd[1]);
+	p->first_cmd = NULL;
+	free_pipex(p);
+	while (p->x <= p->nb_process)
+	{
+		wait(NULL);
+		p->x++;
+	}
 }
 
 int	pipex_bonus(t_pipe *p, int argc, char **argv, char **envp)
 {
-	int id1;
+	int	id1;
 
 	id1 = 0;
 	p->x = 0;
@@ -55,22 +72,15 @@ int	pipex_bonus(t_pipe *p, int argc, char **argv, char **envp)
 			return (error(p, "pipe"), exit(0), 0);
 		new_cmd(p, argv[p->i]);
 		pipex_multiple(p, envp, id1);
+		if (dup2(p->fd[0], 0) == -1)
+			return (error(p, ""), exit(0), 0);
 		close(p->fd[0]);
 		close(p->fd[1]);
 		ft_free_tab(p->first_cmd);
 		p->i += 1;
 	}
 	p->nb_process++;
-	id1 = fork();
-	if (id1 == 0)
-		exec(p, argv[p->i], envp);
-	p->first_cmd = NULL;
-	free_pipex(p);
-	while (p->x <= p->nb_process)
-	{
-		wait(NULL);
-		p->x++;
-	}
+	pipex_bonus2(p, argv, envp);
 	return (1);
 }
 
@@ -94,5 +104,7 @@ int	main(int argc, char **argv, char **envp)
 			return (0);
 	}
 	pipex_bonus(&p, argc, argv, envp);
+	close(p.infile);
+	close(p.outfile);
 	exit(0);
 }
